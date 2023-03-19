@@ -18,11 +18,10 @@ jobs:
       - run: echo world
   display_env_valiables:    
     docker:
-      - image: cimg/base:2020.01
+      - image: circleci/node:13.8.0
     environment:
       MY_ENV_VAR: < pipeline.project.git_url >>/compare/<< pipeline.git.base_revision >>..<<pipeline.git.revision>>
-    steps:
-      - checkout
+    steps:     
       - run:
           name: "echo an env var that is part of our project "
           command: |
@@ -34,7 +33,10 @@ workflows:
     jobs:
       - welcome/run
       - print_hello
+      - display_env_valiables:
+          requires:
+            - print_hello
       - print_world:
           requires:
             - print_hello
-      - display_env_valiables
+     
