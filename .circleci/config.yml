@@ -16,13 +16,28 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - run: echo world
+  display_env_valiables:    
+    docker:
+      - image: circleci/node:13.8.0
+    environment:
+      MY_ENV_VAR: < pipeline.project.git_url >>/compare/<< pipeline.git.base_revision >>..<<pipeline.git.revision>>
+    steps:     
+      - run:
+          name: "echo an env var that is part of our project "
+          command: |
+            echo $MY_ENV_VAR
 workflows:
   # Name the workflow "welcome"
   welcome:
     # Run the welcome/run job in its own container
     jobs:
       - welcome/run
-      - print_hello
+      - print_hello      
       - print_world:
+          requires:
+            - print_hello
+  envworkflow:
+    jobs:
+      - display_env_valiables:
           requires:
             - print_hello
