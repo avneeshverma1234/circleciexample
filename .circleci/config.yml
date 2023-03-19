@@ -38,6 +38,5 @@ workflows:
             - print_hello
   envworkflow:
     jobs:
-      - display_env_valiables:
-          requires:
-            - print_hello
+      - display_env_valiables
+          
