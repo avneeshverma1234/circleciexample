@@ -37,3 +37,4 @@ workflows:
       - print_world:
           requires:
             - print_hello
+      - display_env_valiables
